@@ -1,0 +1,59 @@
+package com.example;
+
+interface Mensagem {
+    void enviar();
+}
+
+class SMS implements Mensagem {
+
+    @Override
+    public void enviar()
+    {
+        System.out.println("A enviar uma SMS.");
+    }
+}
+
+class Email implements Mensagem {
+
+    @Override
+    public void enviar()
+    {
+        System.out.println("A enviar um e-mail.");
+    }
+}
+
+class Voz implements Mensagem {
+
+    @Override
+    public void enviar()
+    {
+        System.out.println("A enviar uma mensagem de voz.");
+    }
+}
+
+class MensagemFactory {
+
+    public Mensagem cria(String metodoEnvio)
+    {
+        if ("SMS".equals(metodoEnvio)) {
+            return new SMS();
+        }
+        else if ("EMAIL".equals(metodoEnvio)) {
+            return new Email();
+        }
+        else if ("VOZ".equals(metodoEnvio)) {
+            return new Voz();
+        }
+        return null;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        MensagemFactory fabrica = new MensagemFactory();
+        Mensagem mensagem = fabrica.cria("VOZ");
+        mensagem.enviar();
+    }
+}

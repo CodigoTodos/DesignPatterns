@@ -1,0 +1,55 @@
+package com.example;
+
+interface Imagem {
+    void mostrar();
+}
+
+class ImagemReal implements Imagem {
+
+    private String nomeFicheiro;
+
+    public ImagemReal(String nomeFicheiro){
+        this.nomeFicheiro = nomeFicheiro;
+        abreImagem(nomeFicheiro);
+    }
+
+    @Override
+    public void mostrar() {
+        System.out.println("A mostrar imagem com o nome: " + nomeFicheiro);
+    }
+
+    private void abreImagem(String nomeFicheiro){
+        System.out.println("A abrir imagem com o nome: " + nomeFicheiro);
+    }
+}
+
+class ImagemProxy implements Imagem{
+
+    private ImagemReal imagemReal;
+    private String nomeFicheiro;
+
+    public ImagemProxy(String nomeFicheiro){
+        this.nomeFicheiro = nomeFicheiro;
+    }
+
+    @Override
+    public void mostrar() {
+        if(imagemReal == null){
+            imagemReal = new ImagemReal(nomeFicheiro);
+        }
+        imagemReal.mostrar();
+    }
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        Imagem imagem = new ImagemProxy("exemplo.jpg");
+
+        imagem.mostrar();
+        imagem.mostrar();
+        imagem.mostrar();
+
+        }
+}

@@ -1,0 +1,143 @@
+package com.example;
+
+interface Mensagem {
+    void enviar();
+}
+
+interface Imagem {
+    void desenhar();
+}
+
+class SMS implements Mensagem {
+
+    @Override
+    public void enviar()
+    {
+        System.out.println("A enviar uma SMS.");
+    }
+}
+
+class Email implements Mensagem {
+
+    @Override
+    public void enviar()
+    {
+        System.out.println("A enviar um e-mail.");
+    }
+}
+
+class Voz implements Mensagem {
+
+    @Override
+    public void enviar()
+    {
+        System.out.println("A enviar uma mensagem de voz.");
+    }
+}
+
+class Jpeg implements Imagem {
+
+    @Override
+    public void desenhar()
+    {
+        System.out.println("Desenha uma Imagem Jpeg.");
+    }
+}
+
+class Gif implements Imagem {
+
+    @Override
+    public void desenhar()
+    {
+        System.out.println("Desenha uma Imagem Gif.");
+    }
+}
+
+class Png implements Imagem {
+
+    @Override
+    public void desenhar()
+    {
+        System.out.println("Desenha uma Imagem Png.");
+    }
+}
+
+
+abstract class AbstractFactory {
+    abstract Mensagem getMensagem(String metodoEnvio);
+    abstract Imagem getImagem(String tipoImagem);
+}
+
+class MensagemFactory extends AbstractFactory{
+
+    @Override
+    public Mensagem getMensagem(String metodoEnvio){
+            if ("SMS".equals(metodoEnvio)) {
+                return new SMS();
+            }
+            else if ("EMAIL".equals(metodoEnvio)) {
+                return new Email();
+            }
+            else if ("VOZ".equals(metodoEnvio)) {
+                return new Voz();
+            }
+            return null;
+        }
+
+    @Override
+    public Imagem getImagem(String tipoImagem){
+            return null;
+        }
+}
+
+class ImagemFactory extends AbstractFactory{
+
+    @Override
+    public Imagem getImagem(String tipoImagem)
+    {
+        if ("JPEG".equals(tipoImagem)) {
+            return new Jpeg();
+        }
+        else if ("GIF".equals(tipoImagem)) {
+            return new Gif();
+        }
+        else if ("PNG".equals(tipoImagem)) {
+            return new Png();
+        }
+        return null;
+    }
+
+    @Override
+    public Mensagem getMensagem(String metodoEnvio){
+        return null;
+    }
+}
+
+class FactoryGenerator {
+
+    public static AbstractFactory getFactory(String tipoFabrica){
+        if("MENSAGEM".equals(tipoFabrica)) {
+            return new MensagemFactory();
+
+        }else if("IMAGEM".equals(tipoFabrica)){
+            return new ImagemFactory();
+        }
+
+        return null;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        AbstractFactory fabricaMensagem = FactoryGenerator.getFactory("MENSAGEM");
+        Mensagem mensagem = fabricaMensagem.getMensagem("VOZ");
+        mensagem.enviar();
+
+        AbstractFactory fabricaImagem = FactoryGenerator.getFactory("IMAGEM");
+        Imagem imagem = fabricaImagem.getImagem("JPEG");
+        imagem.desenhar();
+
+    }
+}

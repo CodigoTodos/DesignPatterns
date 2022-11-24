@@ -1,0 +1,82 @@
+package com.example;
+
+abstract class Veiculo {
+    protected Etapa etapa1;
+    protected Etapa etapa2;
+
+    protected Veiculo(Etapa etapa1, Etapa etapa2)
+    {
+        this.etapa1 = etapa1;
+        this.etapa2 = etapa2;
+    }
+
+    abstract public void fabrico();
+}
+
+class Carro extends Veiculo {
+    public Carro(Etapa etapa1, Etapa etapa2) {
+        super(etapa1, etapa2);
+    }
+
+    @Override
+    public void fabrico() {
+        System.out.println("Carro:");
+        etapa1.executa();
+        etapa2.executa();
+    }
+}
+
+class Camiao extends Veiculo {
+    public Camiao (Etapa etapa1, Etapa etapa2)
+    {
+        super(etapa1, etapa2);
+    }
+
+    @Override
+    public void fabrico()
+    {
+        System.out.println("Camiao:");
+        etapa1.executa();
+        etapa2.executa();
+    }
+}
+
+interface Etapa
+{
+    abstract public void executa();
+}
+
+class Producao implements Etapa {
+    @Override
+    public void executa()
+    {
+        System.out.println("Em Produção.");
+    }
+}
+
+class MontagemA implements Etapa {
+    @Override
+    public void executa()
+    {
+        System.out.println("Em montagem seguindo metodo A.");
+    }
+}
+
+class MontagemB implements Etapa {
+    @Override
+    public void executa()
+    {
+        System.out.println("Em montagem seguindo metodo B.");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Veiculo carro = new Carro(new Producao(), new MontagemA());
+        carro.fabrico();
+        Veiculo camiao = new Camiao(new Producao(), new MontagemB());
+        camiao.fabrico();
+    }
+}

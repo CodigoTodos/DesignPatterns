@@ -1,0 +1,75 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Memento {
+    private String estado;
+
+    public Memento(String estado){
+        this.estado = estado;
+    }
+
+    public String getEstado(){
+        return estado;
+    }
+}
+
+class Original {
+    private String estado;
+
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
+
+    public String getEstado(){
+        return estado;
+    }
+
+    public Memento guardaEstado(){
+        return new Memento(estado);
+    }
+
+    public void getEstadoGuardado(Memento memento){
+        estado = memento.getEstado();
+    }
+}
+
+class TrataEstadosAnteriores {
+    private List<Memento> listaEstadosAnteriores = new ArrayList<>();
+
+    public void adicionar(Memento estado){
+        listaEstadosAnteriores.add(estado);
+    }
+
+    public Memento get(int indice){
+        return listaEstadosAnteriores.get(indice);
+    }
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Original original = new Original();
+        TrataEstadosAnteriores estadosAnteriores = new TrataEstadosAnteriores();
+
+        original.setEstado("Este é o estado 1.");
+        original.setEstado("Este é o estado 2.");
+        estadosAnteriores.adicionar(original.guardaEstado());
+
+        original.setEstado("Este é o estado 3.");
+        estadosAnteriores.adicionar(original.guardaEstado());
+
+        original.setEstado("Este é o estado 4");
+        System.out.println("Estado Atual: " + original.getEstado());
+
+        original.getEstadoGuardado(estadosAnteriores.get(0));
+        System.out.println("Primeiro Estado Guardado: " + original.getEstado());
+        original.getEstadoGuardado(estadosAnteriores.get(1));
+        System.out.println("Segundo Estado Guardado: " + original.getEstado());
+
+
+        }
+    }

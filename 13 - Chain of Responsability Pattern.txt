@@ -1,0 +1,124 @@
+package com.example;
+
+//https://www.journaldev.com/1617/chain-of-responsibility-design-pattern-in-java
+
+class Levantamento {
+
+    private int montante;
+
+    public Levantamento(int montante){
+        this.montante=montante;
+    }
+
+    public int getMontante(){
+        return this.montante;
+    }
+}
+
+interface CadeiaDistribuidorNotas {
+
+    void setProximoDistribuidor(CadeiaDistribuidorNotas proximoDistribuidor);
+
+    void distribuir(Levantamento montante);
+}
+
+class DistribuidorNotas50Euros implements CadeiaDistribuidorNotas {
+
+    private CadeiaDistribuidorNotas proximoDistribuidor;
+
+    @Override
+    public void setProximoDistribuidor(CadeiaDistribuidorNotas proximoDistribuidor) {
+        this.proximoDistribuidor=proximoDistribuidor;
+    }
+
+    @Override
+    public void distribuir(Levantamento montante) {
+        if(montante.getMontante() >= 50){
+            int num = montante.getMontante()/50;
+            int restante = montante.getMontante() % 50;
+            System.out.println("Numero Notas 50€:"+num);
+            if(restante !=0) this.proximoDistribuidor.distribuir(new Levantamento(restante));
+        }else{
+            this.proximoDistribuidor.distribuir(montante);
+        }
+    }
+}
+
+class DistribuidorNotas20Euros implements CadeiaDistribuidorNotas {
+
+    private CadeiaDistribuidorNotas proximoDistribuidor;
+
+    @Override
+    public void setProximoDistribuidor(CadeiaDistribuidorNotas proximoDistribuidor) {
+        this.proximoDistribuidor=proximoDistribuidor;
+    }
+
+    @Override
+    public void distribuir(Levantamento montante) {
+        if(montante.getMontante() >= 20){
+            int num = montante.getMontante()/20;
+            int restante = montante.getMontante() % 20;
+            System.out.println("Numero Notas 20€:"+num);
+            if(restante !=0) this.proximoDistribuidor.distribuir(new Levantamento(restante));
+        }else{
+            this.proximoDistribuidor.distribuir(montante);
+        }
+    }
+}
+
+class DistribuidorNotas10Euros implements CadeiaDistribuidorNotas {
+
+    private CadeiaDistribuidorNotas proximoDistribuidor;
+
+    @Override
+    public void setProximoDistribuidor(CadeiaDistribuidorNotas proximoDistribuidor) {
+        this.proximoDistribuidor=proximoDistribuidor;
+    }
+
+    @Override
+    public void distribuir(Levantamento montante) {
+        if(montante.getMontante() >= 10){
+            int num = montante.getMontante()/10;
+            int restante = montante.getMontante() % 10;
+            System.out.println("Numero Notas 10€:"+num);
+            if(restante !=0) this.proximoDistribuidor.distribuir(new Levantamento(restante));
+        }else{
+            this.proximoDistribuidor.distribuir(montante);
+        }
+    }
+}
+
+class Multibanco {
+
+    private CadeiaDistribuidorNotas distribuidor50;
+
+    public Multibanco() {
+
+        this.distribuidor50 = new DistribuidorNotas50Euros();
+        CadeiaDistribuidorNotas distribuidor20 = new DistribuidorNotas20Euros();
+        CadeiaDistribuidorNotas distribuidor10 = new DistribuidorNotas10Euros();
+
+        distribuidor50.setProximoDistribuidor(distribuidor20);
+        distribuidor20.setProximoDistribuidor(distribuidor10);
+    }
+
+    public CadeiaDistribuidorNotas getDistribuidor50() {
+        return distribuidor50;
+    }
+
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Multibanco multibanco = new Multibanco();
+        System.out.println("Montante a Levantar: 430€:");
+        multibanco.getDistribuidor50().distribuir(new Levantamento(430));
+        System.out.println("Montante a Levantar: 140€:");
+        multibanco.getDistribuidor50().distribuir(new Levantamento(140));
+        System.out.println("Montante a Levantar: 30€:");
+        multibanco.getDistribuidor50().distribuir(new Levantamento(30));
+
+        }
+}

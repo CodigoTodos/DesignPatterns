@@ -1,0 +1,51 @@
+package com.example;
+
+interface TomadaP {
+
+    public void ligarTomadaP();
+}
+
+class AparelhoP implements TomadaP {
+    @Override
+    public void ligarTomadaP() {
+        System.out.println("Ligado Tomada Portuguesa.");
+    }
+}
+
+interface TomadaUK {
+
+    public void ligarTomadaUK();
+}
+
+class AparelhoUK implements TomadaUK {
+    @Override
+    public void ligarTomadaUK() {
+        System.out.println("Ligado Tomada UK.");
+    }
+}
+class Adaptador implements TomadaP {
+    private TomadaUK tomadaUK;
+    public Adaptador(TomadaUK aparelhoUK) {
+        this.tomadaUK = aparelhoUK;
+    }
+
+    @Override
+    public void ligarTomadaP() {
+        tomadaUK.ligarTomadaUK();
+        System.out.println("Com Adaptador para ligar a tomada Portuguesa.");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        AparelhoP radio = new AparelhoP();
+        radio.ligarTomadaP();
+        AparelhoUK forno = new AparelhoUK();
+        forno.ligarTomadaUK();
+
+        Adaptador novoForno = new Adaptador(new AparelhoUK());
+        novoForno.ligarTomadaP();
+        
+    }
+}

@@ -1,0 +1,58 @@
+package com.example;
+
+//https://www.javatpoint.com/template-pattern
+abstract class Jogo {
+
+    abstract void preparar();
+    abstract void comecar();
+    abstract void finalizar();
+
+    public final void jogar(){
+        preparar();
+        comecar();
+        finalizar();
+    }
+}
+
+class Futebol extends Jogo {
+    @Override
+    void preparar() {
+        System.out.println("A preparar o jogo de futebol.");
+    }
+    @Override
+    void comecar() {
+        System.out.println("Comeca o jogo de futebol");
+    }
+    @Override
+    void finalizar() {
+        System.out.println("Termina o jogo de futebol");
+    }
+}
+
+class Tenis extends Jogo {
+    @Override
+    void preparar() {
+        System.out.println("A preparar o jogo de ténis.");
+    }
+    @Override
+    void comecar() {
+        System.out.println("Comeca o jogo de ténis");
+    }
+    @Override
+    void finalizar() {
+        System.out.println("Termina o jogo de ténis");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Jogo jogo = new Futebol();
+        jogo.jogar();
+        System.out.println();
+        jogo = new Tenis();
+        jogo.jogar();
+
+    }
+}

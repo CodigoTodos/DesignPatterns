@@ -1,0 +1,73 @@
+package com.example;
+
+//https://www.geeksforgeeks.org/state-design-pattern/
+
+interface AlertaEstado
+{
+    public void alerta(EstadoTelefone tipoAlerta);
+}
+
+class Silencio implements AlertaEstado
+{
+    @Override
+    public void alerta(EstadoTelefone tipoAlerta)
+    {
+        System.out.println("Estado: Silêncio");
+    }
+
+}
+
+class Vibracao implements AlertaEstado
+{
+    @Override
+    public void alerta(EstadoTelefone tipoAlerta)
+    {
+        System.out.println("Estado: Vibração");
+    }
+
+}
+
+class ComSom implements AlertaEstado
+{
+    @Override
+    public void alerta(EstadoTelefone tipoAlerta)
+    {
+        System.out.println("Estado: Com Som");
+    }
+
+}
+
+class EstadoTelefone
+{
+    private AlertaEstado estadoAtual;
+
+    public EstadoTelefone()
+    {
+        estadoAtual = new Vibracao();
+    }
+
+    public void setEstado(AlertaEstado estado)
+    {
+        estadoAtual = estado;
+    }
+
+    public void alerta()
+    {
+        estadoAtual.alerta(this);
+    }
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        EstadoTelefone estadoTelefone = new EstadoTelefone();
+        estadoTelefone.alerta();
+        estadoTelefone.setEstado(new Silencio());
+        estadoTelefone.alerta();
+        estadoTelefone.setEstado(new ComSom());
+        estadoTelefone.alerta();
+
+    }
+}

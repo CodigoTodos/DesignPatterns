@@ -1,0 +1,77 @@
+package com.example;
+
+//https://www.w3schools.blog/java-interpreter-design-pattern#:~:text=Java%20interpreter%20design%20pattern%20comes%20under%20behavioural%20design,one%20of%20the%20example%20of%20interpreter%20design%20pattern.
+//https://www.w3schools.blog/java-interpreter-design-pattern
+
+class Tradutor {
+    public String getBinario(int i){
+        return Integer.toBinaryString(i);
+    }
+
+    public String getHexadecimal(int i){
+        return Integer.toHexString(i);
+    }
+}
+
+interface Expressao {
+    String traduzir (Tradutor tradutor);
+}
+
+class ExpressaoInteiroParaBinario implements Expressao {
+    private int numero;
+
+    public ExpressaoInteiroParaBinario (int numero){
+        this.numero=numero;
+    }
+
+    @Override
+    public String traduzir(Tradutor tradutor) {
+        return tradutor.getBinario(this.numero);
+    }
+}
+
+class ExpressaoInteiroParaHexadecimal implements Expressao {
+    private int numero;
+
+    public ExpressaoInteiroParaHexadecimal (int numero){
+        this.numero=numero;
+    }
+
+    @Override
+    public String traduzir(Tradutor tradutor) {
+        return tradutor.getHexadecimal(this.numero);
+    }
+}
+
+class Tradutores {
+    public Tradutor tradutor;
+
+    public Tradutores(Tradutor i) {
+        this.tradutor = i;
+    }
+
+    public String traduzir(String str) {
+        Expressao exp = null;
+        if (str.contains("Hexadecimal")) {
+            exp = new ExpressaoInteiroParaHexadecimal(Integer.parseInt(str.substring(0, str.indexOf(" "))));
+        } else if (str.contains("Binario")) {
+            exp = new ExpressaoInteiroParaBinario(Integer.parseInt(str.substring(0, str.indexOf(" "))));
+        } else return str;
+
+        return exp.traduzir(tradutor);
+    }
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        String s1 = "255 em Binario ";
+        String s2 = "255 em Hexadecimal ";
+
+        Tradutores tradutores = new Tradutores(new Tradutor());
+        System.out.println(s1+"= "+tradutores.traduzir(s1));
+        System.out.println(s2+"= "+tradutores.traduzir(s2));
+    }
+
+}

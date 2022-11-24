@@ -1,0 +1,84 @@
+package com.example;
+
+interface Forma {
+    void desenhar();
+}
+
+class Retangulo implements Forma {
+
+    @Override 
+    public void desenhar()
+    {
+        System.out.println("Poligono: Retangulo");
+    }
+}
+
+class Quadrado implements Forma {
+
+    @Override
+    public void desenhar() {
+        System.out.println("Poligono: Quadrado");
+    }
+}
+
+abstract class FormaDecorator implements Forma {
+
+    protected Forma forma;
+
+    public FormaDecorator(Forma forma)
+    {
+        this.forma = forma;
+    }
+
+    public void desenhar() { forma.desenhar(); }
+}
+
+class FormaDecoratorVerde extends FormaDecorator {
+
+    public FormaDecoratorVerde(Forma forma)
+    {
+        super(forma);
+    }
+
+    @Override
+    public void desenhar()
+    {
+        forma.desenhar();
+        System.out.println("Linha: Cor Vermelha");
+
+    }
+}
+
+class FormaDecoratorAzul extends FormaDecorator {
+
+    public FormaDecoratorAzul(Forma forma)
+    {
+        super(forma);
+    }
+
+    @Override
+    public void desenhar()
+    {
+        forma.desenhar();
+        System.out.println("Linha: Cor Azul");
+
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Forma retangulo = new Retangulo();
+        retangulo.desenhar();
+        Forma quadrado = new Quadrado();
+        quadrado.desenhar();
+
+        Forma retanguloVerde = new FormaDecoratorVerde(retangulo);
+        retanguloVerde.desenhar();
+
+        Forma quadradoAzul = new FormaDecoratorAzul(quadrado);
+        quadradoAzul.desenhar();
+        
+    }
+}

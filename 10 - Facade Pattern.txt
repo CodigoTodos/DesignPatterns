@@ -1,0 +1,69 @@
+package com.example;
+
+//https://learn-it-with-examples.com/development/java/java-design-patterns/java-facade.html
+
+interface Carro {
+    public void construir();
+}
+
+class BMW implements Carro{
+
+    public void construir(){
+        System.out.println("BMW Construido");
+    }
+
+}
+
+class Mercedes implements Carro{
+
+    public void construir(){
+        System.out.println("Mercedes Construido");
+    }
+
+}
+
+class Audi implements Carro{
+
+    public void construir(){
+        System.out.println("Audi Construido");
+    }
+
+}
+
+class CarroFacade {
+
+    private Carro bmw;
+    private Carro mercedes;
+    private Carro audi;
+
+    public CarroFacade(){
+        this.bmw = new BMW();
+        this.mercedes = new Mercedes();
+        this.audi = new Audi();
+    }
+
+    public void construirBmw(){
+        bmw.construir();
+    }
+
+    public void construirMercedes(){
+        mercedes.construir();
+    }
+
+    public void construirAudi(){
+        audi.construir();
+    }
+
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+        CarroFacade CarroFacade = new CarroFacade();
+
+        CarroFacade.construirBmw();
+        CarroFacade.construirMercedes();
+        CarroFacade.construirAudi();
+    }
+}

@@ -1,0 +1,93 @@
+package com.example;
+
+import java.util.List;
+import java.util.ArrayList;
+
+interface MediadorConversa {
+
+    public void enviarMensagem(String mensagem, Utilizador utilizador);
+
+    void adicionarUtilizador(Utilizador utilizador);
+}
+
+abstract class Utilizador {
+    protected MediadorConversa mediador;
+    protected String nome;
+
+    public Utilizador(MediadorConversa mediador, String nome){
+        this.mediador=mediador;
+        this.nome=nome;
+    }
+
+    public abstract void enviarMensagem(String mensagem);
+
+    public abstract void receberMensagem(String mensagem);
+}
+
+class ConversaMediadorImplementacao implements MediadorConversa {
+
+    private List<Utilizador> utilizadores;
+
+    public ConversaMediadorImplementacao(){
+        this.utilizadores=new ArrayList<>();
+    }
+
+    @Override
+    public void adicionarUtilizador(Utilizador utilizador){
+        this.utilizadores.add(utilizador);
+    }
+
+    @Override
+    public void enviarMensagem(String mensagem, Utilizador utilizador) {
+        for(Utilizador u : this.utilizadores){
+
+            if(u != utilizador){
+                u.receberMensagem(mensagem);
+            }
+        }
+    }
+}
+
+class MembrosChat extends Utilizador {
+
+    public MembrosChat(MediadorConversa mediador, String nome) {
+        super(mediador, nome);
+    }
+
+    @Override
+    public void enviarMensagem(String mensagem){
+        System.out.println(this.nome+" enviou a seguinte mensagem: "+mensagem);
+        mediador.enviarMensagem(mensagem, this);
+    }
+    @Override
+    public void receberMensagem(String mensagem) {
+        System.out.println(this.nome+" recebeu a seguinte mensagem: "+mensagem);
+    }
+
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        MediadorConversa mediador = new ConversaMediadorImplementacao();
+        Utilizador rui = new MembrosChat(mediador, "Rui");
+        Utilizador marta = new MembrosChat(mediador, "Marta");
+        Utilizador hugo = new MembrosChat(mediador, "Hugo");
+        Utilizador sergio = new MembrosChat(mediador, "Sergio");
+        mediador.adicionarUtilizador(rui);
+        mediador.adicionarUtilizador(marta);
+        mediador.adicionarUtilizador(hugo);
+        mediador.adicionarUtilizador(sergio);
+        
+        rui.enviarMensagem("Olá a Todos.Bem vindos.");
+        hugo.enviarMensagem("Muito obrigado.");
+
+        }
+    }
+
+
+
+
+

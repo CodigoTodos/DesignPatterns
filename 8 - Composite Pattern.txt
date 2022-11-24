@@ -1,0 +1,76 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//Quando os dados necessitam de ser representados numa estrutura em arvore.
+// Quando existe uma relação Pai-Filho.
+//Quando os objectos Pai e filho necessitam de ser tratados da mesma forma.
+
+interface Ficheiro {
+    public String getTipo();
+    public String getNome();
+}
+
+class FicheiroTexto implements Ficheiro {
+    private String Tipo;
+    private String Nome;
+
+    public FicheiroTexto(String nome, String tipo) {
+        this.Nome = nome;
+        this.Tipo = tipo;
+    }
+
+    public String getTipo() {
+        return Tipo;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+}
+
+class Diretorio implements Ficheiro {
+    private String Tipo;
+    private String Nome;
+    private List<Ficheiro> ficheiros = new ArrayList<>();
+
+    public Diretorio(String nome) {
+        this.Nome = nome;
+        this.Tipo = "diretorio";
+    }
+
+    public String getTipo() {
+        return Tipo;
+    }
+
+    public String getNome() {
+        return Nome;
+    }
+
+    public void adicionaFicheiro(Ficheiro ficheiro) {
+        ficheiros.add(ficheiro);
+    }
+
+    public void mostraFicheiros() {
+
+        for (Ficheiro ficheiro : ficheiros) {
+            System.out.println("Nome: "+ficheiro.getNome()+ " Tipo: " + ficheiro.getTipo());
+        }
+    }
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Ficheiro ficheiro1 = new FicheiroTexto("Notas","txt");
+        Ficheiro ficheiro2 = new FicheiroTexto("Aula","docx");
+
+        Diretorio pasta= new Diretorio("Alunos");
+        pasta.adicionaFicheiro(ficheiro1);
+        pasta.adicionaFicheiro(ficheiro2);
+        pasta.mostraFicheiros();
+
+    }
+}

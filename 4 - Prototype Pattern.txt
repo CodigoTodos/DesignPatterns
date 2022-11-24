@@ -1,0 +1,63 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Alunos implements Cloneable{
+    private List<String> listaAlunos;
+
+    public Alunos(){
+        listaAlunos = new ArrayList<>();
+    }
+
+    public Alunos(List<String> lista){
+        this.listaAlunos=lista;
+    }
+    public void carregaDadosBD(){
+        listaAlunos.add("Ana");
+        listaAlunos.add("Rui");
+        listaAlunos.add("Bruno");
+        listaAlunos.add("Sergio");
+        listaAlunos.add("Jorge");
+        listaAlunos.add("Rita");
+    }
+
+    public List<String> getListaAlunos() {
+        return listaAlunos;
+    }
+
+    public void adicionaAluno(String aluno) {
+        listaAlunos.add(aluno);
+    }
+
+    public void removeAluno(String aluno) {
+        listaAlunos.remove(aluno);
+    }
+
+    @Override
+    public Object clone() {
+        List<String> temp = new ArrayList<>();
+        for(String string : this.getListaAlunos()){
+            temp.add(string);
+        }
+        return new Alunos(temp);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args){
+
+        Alunos alunos = new Alunos();
+        alunos.carregaDadosBD();
+
+        Alunos novaListaAlunos = (Alunos) alunos.clone();
+        Alunos MaisUmaListaAlunos = (Alunos) alunos.clone();
+        novaListaAlunos.adicionaAluno("Pedro");
+        MaisUmaListaAlunos.removeAluno("Bruno");
+
+        System.out.println(alunos.getListaAlunos());
+        System.out.println(novaListaAlunos.getListaAlunos());
+        System.out.println(MaisUmaListaAlunos.getListaAlunos());
+}
+}

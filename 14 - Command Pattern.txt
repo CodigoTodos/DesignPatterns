@@ -1,0 +1,73 @@
+package com.example;
+
+//https://www.javatpoint.com/command-pattern
+
+interface ExecutaCommando {
+    public void executar();
+}
+
+class Documento {
+    public void abrir(){
+        System.out.println("A abrir documento.");
+    }
+    public void guardar(){
+        System.out.println("A salvar documento.");
+    }
+}
+
+class ComandoAbrir  implements ExecutaCommando{
+    private Documento documento;
+    public ComandoAbrir(Documento documento) {
+        this.documento = documento;
+    }
+    @Override
+    public void executar() {
+        documento.abrir();
+    }
+}
+
+class ComandoGuardar implements ExecutaCommando{
+    private Documento documento;
+    public ComandoGuardar(Documento documento) {
+        this.documento = documento;
+    }
+    @Override
+    public void executar() {
+        documento.guardar();
+    }
+}
+
+class Opcoes {
+
+    private ExecutaCommando comandoAbrir;
+    private ExecutaCommando comandoGuardar;
+
+    public Opcoes(ExecutaCommando abrir, ExecutaCommando guardar) {
+        this.comandoAbrir = abrir;
+        this.comandoGuardar = guardar;
+    }
+    public void Abrir(){
+        comandoAbrir.executar();
+    }
+    public void Guardar(){
+        comandoGuardar.executar();
+    }
+
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Documento documento = new Documento();
+
+        ExecutaCommando abrir = new ComandoAbrir(documento);
+        ExecutaCommando guardar = new ComandoGuardar(documento);
+
+        Opcoes opcoes = new Opcoes(abrir, guardar);
+
+        opcoes.Abrir();
+        opcoes.Guardar();
+
+        }
+}

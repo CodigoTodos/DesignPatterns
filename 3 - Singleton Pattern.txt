@@ -1,0 +1,35 @@
+package com.example;
+
+class LigacaoBaseDados {
+    private static LigacaoBaseDados db;
+
+    private LigacaoBaseDados() {
+        System.out.println("A ligar à base dados.");
+    }
+
+    public static LigacaoBaseDados getInstance() {
+
+        if(db == null) {
+            db = new LigacaoBaseDados();
+        }
+
+        return db;
+    }
+
+    public void getLigacao() {
+        System.out.println("Ligado à base Dados");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        LigacaoBaseDados db;
+        db= LigacaoBaseDados.getInstance();
+        db.getLigacao();
+        LigacaoBaseDados db1;
+        db1= LigacaoBaseDados.getInstance();
+        db1.getLigacao();
+    }
+}

@@ -1,0 +1,70 @@
+package com.example;
+
+import java.util.ArrayList;
+import java.util.List;
+
+interface Objeto {
+    void subscrever(Observador observador);
+    void cancelar(Observador observador);
+    void notificarObservadores(String mensagem);
+}
+
+interface Observador {
+    public void atualizar(String mensagem);
+}
+
+class Produto implements Objeto {
+    private List<Observador> subscritores = new ArrayList<>();
+
+    @Override
+    public void subscrever(Observador subscritor) {
+        subscritores.add(subscritor);
+    }
+    @Override
+    public void cancelar(Observador subscritor) {
+        subscritores.remove(subscritor);
+    }
+
+    @Override
+    public void notificarObservadores(String mensagem) {
+        for(Observador sub : subscritores) {
+            sub.atualizar(mensagem);
+        }
+    }
+}
+
+class Cliente implements Observador {
+
+    private String nome;
+
+    public Cliente(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public void atualizar(String mensagem) {
+        System.out.println( nome + " " + mensagem);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+        Produto telefone = new Produto();
+
+        Cliente Ana = new Cliente("Ana");
+        Cliente Rui = new Cliente("Rui");
+        Cliente Tiago = new Cliente("Tiago");
+
+        telefone.subscrever(Ana);
+        telefone.subscrever(Rui);
+        telefone.subscrever(Tiago);
+
+        telefone.notificarObservadores("o Telefone esta disponivel");
+
+        telefone.cancelar(Rui);
+
+        System.out.println();
+        telefone.notificarObservadores("apenas 10 unidades em Stock");
+    }
+}

@@ -1,0 +1,138 @@
+package com.example;
+
+class Aluno {
+
+    private  String primeiroNome;
+    private  String ultimoNome;
+    private  int idade;
+    private  String telefone;
+    private  String morada;
+    private  String email;
+    private  String curso;
+    private  int ano;
+
+    private Aluno(AlunoBuilder builder) {
+        this.primeiroNome = builder.primeiroNome;
+        this.ultimoNome = builder.ultimoNome;
+        this.idade = builder.idade;
+        this.telefone = builder.telefone;
+        this.morada = builder.morada;
+        this.email = builder.email;
+        this.curso = builder.curso;
+        this.ano = builder.ano;
+    }
+
+    public String getPrimeiroNome() {
+        return primeiroNome;
+    }
+
+    public String getUltimoNome() {
+        return ultimoNome;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getMorada() {
+        return morada;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public int getAno() {
+        return ano;
+    }
+
+    @Override
+    public String toString() {
+        return "Aluno: "+this.primeiroNome+", "+this.ultimoNome+", "+this.idade+", "+this.telefone+", "
+                +this.morada+", "+this.email+", "+this.curso+", "+this.ano;
+    }
+
+    public static class AlunoBuilder
+    {
+        private  String primeiroNome;
+        private  String ultimoNome;
+        private  int idade;
+        private  String telefone;
+        private  String morada;
+        private  String email;
+        private  String curso;
+        private  int ano;
+
+        public AlunoBuilder(String primeiroNome, String ultimoNome) {
+            this.primeiroNome = primeiroNome;
+            this.ultimoNome = ultimoNome;
+        }
+        public AlunoBuilder idade(int idade) {
+            this.idade = idade;
+            return this;
+        }
+        public AlunoBuilder telefone(String telefone) {
+            this.telefone = telefone;
+            return this;
+        }
+        public AlunoBuilder morada(String morada) {
+            this.morada = morada;
+            return this;
+        }
+
+        public AlunoBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public AlunoBuilder curso(String curso) {
+            this.curso = curso;
+            return this;
+        }
+
+        public AlunoBuilder ano(int ano) {
+            this.ano = ano;
+            return this;
+        }
+
+        public Aluno build() {
+            Aluno aluno =  new Aluno(this);
+            return aluno;
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Aluno aluno1 = new Aluno.AlunoBuilder("Rui", "Mendes")
+                .idade(35)
+                .morada("Rua de Cima")
+                .telefone("123456789")
+                .ano(1)
+                .build();
+
+        System.out.println(aluno1);
+
+        Aluno aluno2 = new Aluno.AlunoBuilder("Ana", "Silva")
+                .idade(30)
+                .telefone("987654321")
+                .curso("Informatica")
+                .build();
+
+        System.out.println(aluno2);
+
+        Aluno aluno3 = new Aluno.AlunoBuilder("Nelson", "Faria")
+                .build();
+
+        System.out.println(aluno3);
+    }

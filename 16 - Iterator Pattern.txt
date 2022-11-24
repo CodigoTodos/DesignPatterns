@@ -1,0 +1,58 @@
+package com.example;
+
+interface Iterador {
+    public boolean temProximo();
+    public Object proximo();
+}
+
+interface Repositorio {
+    public Iterador getIterador();
+}
+
+class RepositorioNomes implements Repositorio {
+    public String nomes[] = {"Ana" , "Rui" ,"Jorge" , "Ricardo"};
+
+    @Override
+    public Iterador getIterador() {
+        return new IteradorNome();
+    }
+
+
+    private class IteradorNome implements Iterador {
+
+        int indice;
+
+        @Override
+        public boolean temProximo() {
+
+            if(indice < nomes.length){
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public Object proximo() {
+
+            if(this.temProximo()){
+                return nomes[indice++];
+            }
+            return null;
+        }
+    }
+}
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        RepositorioNomes repositorioNomes = new RepositorioNomes();
+        Iterador iter = repositorioNomes.getIterador();
+        while (iter.temProximo()) {
+            String nome = (String) iter.proximo();
+            System.out.println("Nome : " + nome);
+        }
+    }
+
+}

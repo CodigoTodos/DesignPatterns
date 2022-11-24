@@ -1,0 +1,125 @@
+package com.example;
+
+//https://www.geeksforgeeks.org/visitor-design-pattern/
+interface Produtos
+{
+    double aceitar(VisitanteCarrinhoCompras visitante);
+}
+
+class Livro implements Produtos
+{
+    private int preco;
+    private String titulo;
+
+    public Livro(int preco, String titulo)
+    {
+        this.preco=preco;
+        this.titulo=titulo;
+    }
+
+    public int getPreco()
+    {
+        return preco;
+    }
+
+    public String getTitulo()
+    {
+        return titulo;
+    }
+
+    @Override
+    public double aceitar(VisitanteCarrinhoCompras visitante)
+    {
+        return visitante.visitar(this);
+    }
+
+}
+
+class Fruta implements Produtos
+{
+    private int precoKg;
+    private int peso;
+    private String nome;
+
+    public Fruta(int precoKg, int peso, String nome)
+    {
+        this.precoKg=precoKg;
+        this.peso=peso;
+        this.nome = nome;
+    }
+
+    public int getPrecoKg()
+    {
+        return precoKg;
+    }
+
+    public int getPeso()
+    {
+        return peso;
+    }
+
+    public String getNome()
+    {
+        return nome;
+    }
+
+    @Override
+    public double aceitar(VisitanteCarrinhoCompras visitante)
+    {
+        return visitante.visitar(this);
+    }
+
+}
+
+interface VisitanteCarrinhoCompras
+{
+    double visitar(Livro livro);
+    double visitar(Fruta fruta);
+}
+
+class CarrinhoCompras implements VisitanteCarrinhoCompras {
+
+    @Override
+    public double visitar(Livro livro) {
+        double preco = 0;
+        if (livro.getPreco() >= 25) {
+            preco = livro.getPreco() * .9;
+        } else
+            preco = livro.getPreco();
+
+        System.out.println("Titulo Livro:" + livro.getTitulo() + " Preço:" +preco+"€" );
+        return preco;
+    }
+
+    @Override
+    public double visitar(Fruta fruta) {
+        double preco = fruta.getPrecoKg() * fruta.getPeso();
+        System.out.println(fruta.getNome() + " Preço:" + preco+"€");
+        return preco;
+    }
+}
+
+public class Main {
+
+    private static double calcularPreco(Produtos[] produtos)
+    {
+        VisitanteCarrinhoCompras visitante = new CarrinhoCompras();
+        double soma=0;
+        for(Produtos produto : produtos)
+        {
+            soma = soma + produto.aceitar(visitante);
+        }
+        return soma;
+    }
+
+    public static void main(String[] args) {
+        Produtos[] produtos = new Produtos[]{new Livro(14, "Aprender Programar"),
+                new Livro(35, "Java Avançado"), new Fruta(2, 3, "Morangos"),
+                new Fruta(1, 2, "Laranjas")};
+
+        double total = calcularPreco(produtos);
+        System.out.println("Preço Total:"+total+"€");
+
+
+    }
+}

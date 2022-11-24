@@ -1,0 +1,47 @@
+package com.example;
+
+interface MetodoPagamento {
+    void pagamento(double montante);
+}
+
+class CartaoDebito implements MetodoPagamento {
+    public void pagamento(double montante)
+    {
+        System.out.println("Pagamento com cartão Crédito no montante de "+montante +"€.");
+    }
+}
+
+class paypal implements MetodoPagamento{
+    public void pagamento(double montante)
+    {
+        System.out.println("Pagamento com Paypal no montante de "+ montante +"€." );
+    }
+}
+
+class ServicoPagamento {
+    private double valor;
+    private MetodoPagamento metodopagamento;
+
+    public void EscolhaPagamento(MetodoPagamento metpagamento)
+    {
+        metodopagamento = metpagamento;
+    }
+
+    public void Processamento (double valor)
+    {
+        metodopagamento.pagamento(valor);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        ServicoPagamento compra = new ServicoPagamento();
+        double valor = 17.02;
+        compra.EscolhaPagamento(new CartaoDebito());
+        //compra.EscolhaPagamento(new paypal());
+        compra.Processamento(valor);
+
+    }
+}
